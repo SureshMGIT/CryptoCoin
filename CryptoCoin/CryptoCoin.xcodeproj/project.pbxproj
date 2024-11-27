@@ -16,6 +16,8 @@
 		FA82F3972CF5C37F00C3D306 /* CryptoCoinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82F3962CF5C37F00C3D306 /* CryptoCoinUITests.swift */; };
 		FA82F3992CF5C37F00C3D306 /* CryptoCoinUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82F3982CF5C37F00C3D306 /* CryptoCoinUITestsLaunchTests.swift */; };
 		FA82F3A62CF5C40C00C3D306 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82F3A52CF5C40C00C3D306 /* ViewModel.swift */; };
+		FA82F3A82CF5CE7E00C3D306 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82F3A72CF5CE7E00C3D306 /* NetworkManager.swift */; };
+		FA82F3AA2CF5CF6A00C3D306 /* CoinModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82F3A92CF5CF6A00C3D306 /* CoinModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		FA82F3962CF5C37F00C3D306 /* CryptoCoinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCoinUITests.swift; sourceTree = "<group>"; };
 		FA82F3982CF5C37F00C3D306 /* CryptoCoinUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCoinUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FA82F3A52CF5C40C00C3D306 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		FA82F3A72CF5CE7E00C3D306 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		FA82F3A92CF5CF6A00C3D306 /* CoinModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,8 @@
 				FA82F3772CF5C37B00C3D306 /* SceneDelegate.swift */,
 				FA82F3792CF5C37B00C3D306 /* ViewController.swift */,
 				FA82F3A52CF5C40C00C3D306 /* ViewModel.swift */,
+				FA82F3A92CF5CF6A00C3D306 /* CoinModel.swift */,
+				FA82F3A72CF5CE7E00C3D306 /* NetworkManager.swift */,
 				FA82F37E2CF5C37E00C3D306 /* Assets.xcassets */,
 				FA82F3802CF5C37E00C3D306 /* LaunchScreen.storyboard */,
 				FA82F3832CF5C37E00C3D306 /* Info.plist */,
@@ -259,7 +265,9 @@
 			files = (
 				FA82F37A2CF5C37B00C3D306 /* ViewController.swift in Sources */,
 				FA82F3762CF5C37B00C3D306 /* AppDelegate.swift in Sources */,
+				FA82F3A82CF5CE7E00C3D306 /* NetworkManager.swift in Sources */,
 				FA82F3A62CF5C40C00C3D306 /* ViewModel.swift in Sources */,
+				FA82F3AA2CF5CF6A00C3D306 /* CoinModel.swift in Sources */,
 				FA82F3782CF5C37B00C3D306 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
