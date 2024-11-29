@@ -55,7 +55,7 @@ class CoinFilterCollectionViewCell: UICollectionViewCell {
         label?.text = model.title
         if model.isSelected {
             imageView?.isHidden = false
-            self.backgroundColor = .yellow
+            self.backgroundColor = UIColor(red: 209.0 / 255.0, green: 209.0 / 255.0, blue: 209.0 / 255.0, alpha: 1)
         } else {
             imageView?.isHidden = true
             self.backgroundColor = UIColor(red: 229.0 / 255.0, green: 229.0 / 255.0, blue: 229.0 / 255.0, alpha: 1)

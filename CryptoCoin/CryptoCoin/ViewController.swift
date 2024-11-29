@@ -80,7 +80,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         let coinFilterModel = viewModel.coinFilterArray[indexPath.item]
         let font = UIFont.systemFont(ofSize: 15)
         let size = (coinFilterModel.title as NSString).size(withAttributes: [.font: font])
-        let width = size.width + (coinFilterModel.isSelected ? 25.0 : 0) + 20
+        let width = size.width + (coinFilterModel.isSelected ? 30.0 : 0) + 20
         return CGSize(width: width, height: 32)
     }
 }
@@ -96,6 +96,15 @@ extension ViewController: UICollectionViewDataSource {
         }
         cell.configure(with: viewModel.coinFilterArray[indexPath.item])
         return cell
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var model = viewModel.coinFilterArray[indexPath.row]
+        model.isSelected = !model.isSelected
+        viewModel.coinFilterArray[indexPath.row] = model
+        collectionView.reloadData()
     }
 }
 

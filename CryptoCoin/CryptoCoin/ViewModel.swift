@@ -10,7 +10,7 @@ import Foundation
 class ViewModel {
     weak var delegate: ViewModelDelegate?
     
-    let coinFilterArray = [CoinFilterModel(title: "Active Coins"),
+    var coinFilterArray = [CoinFilterModel(title: "Active Coins"),
                           CoinFilterModel(title: "Inactive Coins"),
                           CoinFilterModel(title: "Only Tokens"),
                           CoinFilterModel(title: "Only Coins"),
