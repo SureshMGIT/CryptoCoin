@@ -8,9 +8,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var viewModel: ViewModel!
     var activityIndicator: UIActivityIndicatorView?
+    var collectionViewHeightConstraint: NSLayoutConstraint?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -42,7 +43,7 @@ class ViewController: UIViewController {
         viewModel?.fetchCoins()
         showLoader()
     }
-
+    
     func showLoader() {
         activityIndicator = UIActivityIndicatorView()
         activityIndicator?.style = .large
@@ -52,7 +53,7 @@ class ViewController: UIViewController {
         activityIndicator?.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         activityIndicator?.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
     }
-
+    
     func setupTableView() {
         
     }
@@ -64,15 +65,21 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            collectionView.heightAnchor.constraint(equalToConstant: 100)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
+        collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 100)
+        collectionViewHeightConstraint?.isActive = true
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-            super.viewWillTransition(to: size, with: coordinator)
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
+        super.viewWillTransition(to: size, with: coordinator)
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionViewHeightConstraint?.constant = collectionView.contentSize.height + 20
+    }
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
