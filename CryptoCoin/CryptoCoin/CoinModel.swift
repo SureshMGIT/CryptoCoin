@@ -24,3 +24,8 @@ enum CoinType: String, Codable {
     case coin = "coin"
     case token = "token"
 }
+
+struct CoinFilterModel {
+    let title: String
+    var isSelected = false
+}
