@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     var activityIndicator: UIActivityIndicatorView?
     var collectionViewHeightConstraint: NSLayoutConstraint?
     
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -26,6 +27,16 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         collectionView.contentInset = .init(top: 10, left: 10, bottom: 10, right: 10)
         return collectionView
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.reuseIdentifier)
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+        
+        return tableView
     }()
     
     override func loadView() {
@@ -55,7 +66,14 @@ class ViewController: UIViewController {
     }
     
     func setupTableView() {
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: 0)
+        ])
     }
     
     func setupCollectionView() {
@@ -108,10 +126,21 @@ extension ViewController: UICollectionViewDataSource {
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var model = viewModel.coinFilterArray[indexPath.row]
-        model.isSelected = !model.isSelected
-        viewModel.coinFilterArray[indexPath.row] = model
+        viewModel.updateFilterSelection(selectedIndex: indexPath.row)
         collectionView.reloadData()
+        tableView.reloadData()
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.currentCoinList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CoinTableViewCell.reuseIdentifier) as! CoinTableViewCell
+        cell.configureCell(model: viewModel.currentCoinList[indexPath.row])
+        return cell
     }
 }
 
@@ -123,10 +152,15 @@ extension ViewController: ViewModelDelegate {
             self?.activityIndicator?.stopAnimating()
             self?.activityIndicator?.isHidden = true
             self?.setupCollectionView()
+            self?.setupTableView()
         }
     }
     
     func coinListFetchedFail() {
         
+    }
+    
+    func updateList() {
+        tableView.reloadData()
     }
 }

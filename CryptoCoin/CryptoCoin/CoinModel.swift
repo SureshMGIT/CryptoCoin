@@ -27,5 +27,5 @@ enum CoinType: String, Codable {
 
 struct CoinFilterModel {
     let title: String
-    var isSelected = false
+    var isSelected = true
 }
