@@ -16,6 +16,7 @@ class ViewModel {
                           CoinFilterModel(title: "Only Coins"),
                           CoinFilterModel(title: "New Coins")]
     var coinList: [CoinModel] = []
+    var listFilter: [CoinModel] = []
     var currentCoinList: [CoinModel] = []
     
     init(delegate: ViewModelDelegate?) {
@@ -28,6 +29,7 @@ class ViewModel {
             case .success(let list):
                 self?.coinList = list
                 self?.currentCoinList = list
+                self?.listFilter = list
                 self?.delegate?.coinListFetchedSuccess(list: list)
             case .failure(let error):
                 print(error)
@@ -59,12 +61,10 @@ class ViewModel {
                         return true
                     }
                 case "Only Coins":
-                    currentCoinList = coinList.filter { $0.type == .coin }
                     if innerItem.isSelected && item.type == .coin {
                         return true
                     }
                 case "New Coins":
-                    currentCoinList = coinList.filter { $0.isNew }
                     if innerItem.isSelected && item.isNew {
                         return true
                     }
@@ -74,6 +74,16 @@ class ViewModel {
             }
             return false
         })
+        listFilter = array
+        currentCoinList = listFilter
+    }
+    
+    func filterListForSearch(text: String) {
+        if text.isEmpty {
+            currentCoinList = listFilter
+            return
+        }
+        let array = listFilter.filter({ $0.name.lowercased().contains(text.lowercased())})
         currentCoinList = array
     }
 }

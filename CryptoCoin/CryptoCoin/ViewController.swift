@@ -39,6 +39,14 @@ class ViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var coinnSearchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.barStyle = .default
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
+        return searchBar
+    }()
+    
     override func loadView() {
         super.loadView()
         let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
@@ -53,6 +61,8 @@ class ViewController: UIViewController {
         viewModel = ViewModel(delegate: self)
         viewModel?.fetchCoins()
         showLoader()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func showLoader() {
@@ -71,7 +81,7 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            tableView.topAnchor.constraint(equalTo: coinnSearchBar.bottomAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: 0)
         ])
     }
@@ -89,6 +99,16 @@ class ViewController: UIViewController {
         collectionViewHeightConstraint?.isActive = true
     }
     
+    func setupSearchBar() {
+        view.addSubview(coinnSearchBar)
+        coinnSearchBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            coinnSearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            coinnSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            coinnSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        ])
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         collectionView.collectionViewLayout.invalidateLayout()
@@ -97,6 +117,16 @@ class ViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         collectionViewHeightConstraint?.constant = collectionView.contentSize.height + 20
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
+            tableView.contentInset = .init(top: 0, left: 0, bottom: keyboardHeight - (collectionViewHeightConstraint?.constant ?? 0), right: 0)
+        }
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        tableView.contentInset = .zero
     }
 }
 
@@ -144,6 +174,22 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
+extension ViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        viewModel.filterListForSearch(text: searchText)
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+}
+
 extension ViewController: ViewModelDelegate {
     
     func coinListFetchedSuccess(list: [CoinModel]) {
@@ -152,6 +198,7 @@ extension ViewController: ViewModelDelegate {
             self?.activityIndicator?.stopAnimating()
             self?.activityIndicator?.isHidden = true
             self?.setupCollectionView()
+            self?.setupSearchBar()
             self?.setupTableView()
         }
     }
