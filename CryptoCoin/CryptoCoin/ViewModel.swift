@@ -18,13 +18,15 @@ class ViewModel {
     var coinList: [CoinModel] = []
     var listFilter: [CoinModel] = []
     var currentCoinList: [CoinModel] = []
+    let networkManager: NetworkManagerProtocol
     
-    init(delegate: ViewModelDelegate?) {
+    init(delegate: ViewModelDelegate?, networManager: NetworkManagerProtocol) {
         self.delegate = delegate
+        self.networkManager = networManager
     }
     
     func fetchCoins() {
-        NetworkManager().fetchCoins() {[weak self] result in
+        networkManager.fetchCoins() {[weak self] result in
             switch result {
             case .success(let list):
                 self?.coinList = list

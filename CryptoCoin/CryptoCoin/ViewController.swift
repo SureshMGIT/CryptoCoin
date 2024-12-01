@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = "Coin"
-        viewModel = ViewModel(delegate: self)
+        viewModel = ViewModel(delegate: self, networManager: NetworkManager())
         viewModel?.fetchCoins()
         showLoader()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)

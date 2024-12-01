@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+class NetworkManager: NetworkManagerProtocol {
     
     func fetchCoins(completionHandler: @escaping (Result<[CoinModel], NetworkError>) -> Void) {
         let urlString = "https://37656be98b8f42ae8348e4da3ee3193f.api.mockbin.io"
@@ -51,4 +51,8 @@ class CustomSessionDelegate: NSObject, URLSessionDelegate {
 
 enum NetworkError: Error {
     case error(String)
+}
+
+protocol NetworkManagerProtocol {
+    func fetchCoins(completionHandler: @escaping (Result<[CoinModel], NetworkError>) -> Void)
 }
