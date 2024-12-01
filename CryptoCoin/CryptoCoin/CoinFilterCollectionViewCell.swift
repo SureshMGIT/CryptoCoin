@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CoinFilterCollectionViewCell: UICollectionViewCell {
+final class CoinFilterCollectionViewCell: UICollectionViewCell {
     static let identifier = "CoinFilterCollectionViewCell"
     
     var label: UILabel?

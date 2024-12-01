@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CoinTableViewCell: UITableViewCell {
+final class CoinTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "cell"
     

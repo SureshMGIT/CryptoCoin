@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     var viewModel: ViewModel!
     var activityIndicator: UIActivityIndicatorView?

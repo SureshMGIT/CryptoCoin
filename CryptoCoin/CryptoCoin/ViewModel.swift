@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ViewModel {
+final class ViewModel {
     weak var delegate: ViewModelDelegate?
     
     var coinFilterArray = [CoinFilterModel(title: "Active Coins"),
