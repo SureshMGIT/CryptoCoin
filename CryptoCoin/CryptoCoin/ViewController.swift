@@ -47,6 +47,12 @@ final class ViewController: UIViewController {
         return searchBar
     }()
     
+    private lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    
     override func loadView() {
         super.loadView()
         let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
@@ -107,6 +113,14 @@ final class ViewController: UIViewController {
             coinnSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             coinnSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
         ])
+    }
+    
+    func setupErrorLabel(text: String) {
+        view.addSubview(errorLabel)
+        errorLabel.text = text
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -193,7 +207,6 @@ extension ViewController: UISearchBarDelegate {
 extension ViewController: ViewModelDelegate {
     
     func coinListFetchedSuccess(list: [CoinModel]) {
-        print(list)
         DispatchQueue.main.async {[weak self] in
             self?.activityIndicator?.stopAnimating()
             self?.activityIndicator?.isHidden = true
@@ -203,8 +216,12 @@ extension ViewController: ViewModelDelegate {
         }
     }
     
-    func coinListFetchedFail() {
-        
+    func coinListFetchedFail(error: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator?.stopAnimating()
+            self?.activityIndicator?.isHidden = true
+            self?.setupErrorLabel(text: error)
+        }
     }
     
     func updateList() {

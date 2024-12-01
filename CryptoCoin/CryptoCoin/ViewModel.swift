@@ -34,7 +34,7 @@ final class ViewModel {
                 self?.listFilter = list
                 self?.delegate?.coinListFetchedSuccess(list: list)
             case .failure(let error):
-                print(error)
+                self?.delegate?.coinListFetchedFail(error: error.localizedDescription)
             }
         }
     }
@@ -92,7 +92,7 @@ final class ViewModel {
 
 protocol ViewModelDelegate: AnyObject {
     func coinListFetchedSuccess(list: [CoinModel])
-    func coinListFetchedFail()
+    func coinListFetchedFail(error: String)
     func updateList()
 }
 

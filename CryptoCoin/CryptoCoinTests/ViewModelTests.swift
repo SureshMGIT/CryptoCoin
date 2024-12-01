@@ -57,7 +57,7 @@ final class ViewModelTests: XCTestCase {
         viewModel.fetchCoins()
         
         XCTAssertFalse(mockDelegate.coinListFetchedSuccessCalled)
-        XCTAssertFalse(mockDelegate.coinListFetchedFailCalled)
+        XCTAssertTrue(mockDelegate.coinListFetchedFailCalled)
     }
     
     func testUpdateFilterSelectionTogglesFilter() {
@@ -114,7 +114,7 @@ final class MockViewModelDelegate: ViewModelDelegate {
         coinListFetchedSuccessCalled = true
     }
     
-    func coinListFetchedFail() {
+    func coinListFetchedFail(error: String) {
         coinListFetchedFailCalled = true
     }
     
